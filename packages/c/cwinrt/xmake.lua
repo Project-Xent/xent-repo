@@ -1,0 +1,40 @@
+package("cwinrt")
+    set_homepage("https://github.com/Project-Xent/cwinrt")
+    set_description("Pure-C WinRT projection (runtime + generated bindings) used by FluXent.")
+    set_license("0BSD")
+
+    add_urls("https://github.com/Project-Xent/cwinrt.git")
+    -- 0.1.0 == main HEAD including the IInspectable IID fix (1745ebf).
+    add_versions("0.1.0", "1745ebfa94596b1e49e6339f5c4cc68d2746690b")
+
+    if not is_plat("windows", "mingw") then
+        set_isbuilt(false)
+    end
+
+    on_install("windows", "mingw", function (package)
+        -- The project xmake.lua gates its generator / conformance suite / samples on
+        -- is_main and would try to build coetua + cwinrt-gen here. The bindings
+        -- (include/cwinrt/impl/*.impl.c) are committed, so build ONLY the runtime +
+        -- bindings into a single lib via a minimal build file.
+        io.writefile("xmake.lua", [[
+            add_rules("mode.debug", "mode.release")
+            set_languages("c17")
+            add_defines("_CRT_SECURE_NO_WARNINGS", "UNICODE", "_UNICODE")
+            target("cwinrt")
+                set_kind("$(kind)")
+                add_includedirs("include", "gen", {public = true})
+                add_headerfiles("include/(cwinrt/**.h)")
+                add_files("rt/*.c", "include/cwinrt/impl/*.impl.c")
+                if is_plat("windows", "mingw") then
+                    add_syslinks("runtimeobject", "ole32", "oleaut32", "uuid", {public = true})
+                end
+        ]])
+        import("package.tools.xmake").install(package)
+    end)
+
+    on_test(function (package)
+        assert(package:check_csnippets({test = [[
+            #include <cwinrt/bootstrap.h>
+            void test(void) {}
+        ]]}, {configs = {languages = "c17"}}))
+    end)
