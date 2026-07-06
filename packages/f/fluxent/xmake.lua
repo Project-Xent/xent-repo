@@ -7,6 +7,7 @@ package("fluxent")
     -- 0.1.0 == current main HEAD (no tag yet; switch to v0.1.0 tag once tagged).
     add_versions("0.1.0", "b4a328c517d75e481040e5f2c82baa2c28c57009")
     add_versions("0.1.1", "5d89e8af67ece72c99febb50290bba8b05a9b6f0")
+    add_versions("0.1.2", "cc11c4d841958d84e491a56e36daeb56e680f2b2")
 
     if not is_plat("windows", "mingw") then
         set_isbuilt(false)
