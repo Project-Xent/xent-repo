@@ -4,8 +4,8 @@ package("xent-kit")
     set_license("0BSD")
 
     add_urls("https://github.com/Project-Xent/xent-kit.git")
-    -- 0.1.0 == current main HEAD (no tag yet; switch to v0.1.0 tag once tagged).
     add_versions("0.1.0", "790fe1c6137bf626fcb431929a7b5957eda88391")
+    add_versions("0.2.0", "e6eca62decd9762060fa4305d8b9ae2966b9af98")
 
     add_deps("xent-core")
 

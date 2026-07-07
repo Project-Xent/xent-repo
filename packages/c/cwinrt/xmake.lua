@@ -4,8 +4,8 @@ package("cwinrt")
     set_license("0BSD")
 
     add_urls("https://github.com/Project-Xent/cwinrt.git")
-    -- 0.1.0 == main HEAD including the IInspectable IID fix (1745ebf).
     add_versions("0.1.0", "1745ebfa94596b1e49e6339f5c4cc68d2746690b")
+    add_versions("0.2.0", "f5f5bf527d0dae3fa87cf8d7c0c7c482591ca596")
 
     if not is_plat("windows", "mingw") then
         set_isbuilt(false)
@@ -18,7 +18,7 @@ package("cwinrt")
         -- bindings into a single lib via a minimal build file.
         io.writefile("xmake.lua", [[
             add_rules("mode.debug", "mode.release")
-            set_languages("c17")
+            set_languages("c23")
             add_defines("_CRT_SECURE_NO_WARNINGS", "UNICODE", "_UNICODE")
             target("cwinrt")
                 set_kind("$(kind)")

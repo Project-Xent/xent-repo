@@ -4,8 +4,8 @@ package("xent-core")
     set_license("0BSD")
 
     add_urls("https://github.com/Project-Xent/xent-core.git")
-    -- 0.1.0 == current main HEAD (no tag yet; switch to v0.1.0 tag once tagged).
     add_versions("0.1.0", "ed95f79452d99201b7094dcad41f0460be8dc48c")
+    add_versions("0.2.0", "8bc939cce4bb6a832d16bfa97e1723026514a06b")
 
     -- Optional SIMD / ISPC paths are off by default (experimental); expose as configs.
     add_configs("simd", {description = "Enable experimental SIMD scaffolding", default = false, type = "boolean"})

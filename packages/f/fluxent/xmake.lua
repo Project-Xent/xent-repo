@@ -4,10 +4,10 @@ package("fluxent")
     set_license("0BSD")
 
     add_urls("https://github.com/Project-Xent/fluxent.git")
-    -- 0.1.0 == current main HEAD (no tag yet; switch to v0.1.0 tag once tagged).
     add_versions("0.1.0", "b4a328c517d75e481040e5f2c82baa2c28c57009")
     add_versions("0.1.1", "5d89e8af67ece72c99febb50290bba8b05a9b6f0")
     add_versions("0.1.2", "cc11c4d841958d84e491a56e36daeb56e680f2b2")
+    add_versions("0.2.0", "490e6f3f50939e79083ae2cada757799442148c7")
 
     if not is_plat("windows", "mingw") then
         set_isbuilt(false)
@@ -21,7 +21,7 @@ package("fluxent")
         -- that consumes the pinned package deps and builds only the fluxent library.
         io.writefile("xmake.lua", [[
             add_rules("mode.debug", "mode.release")
-            set_languages("c17")
+            set_languages("c23")
             set_runtimes("MT")
             add_defines("COBJMACROS", "_CRT_SECURE_NO_WARNINGS",
                         "_WIN32_WINNT=0x0A00", "WINVER=0x0A00", "UNICODE", "_UNICODE",
