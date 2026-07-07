@@ -6,6 +6,7 @@ package("cwinrt")
     add_urls("https://github.com/Project-Xent/cwinrt.git")
     add_versions("0.1.0", "1745ebfa94596b1e49e6339f5c4cc68d2746690b")
     add_versions("0.2.0", "f5f5bf527d0dae3fa87cf8d7c0c7c482591ca596")
+    add_versions("0.2.1", "b104e2c0fdf6cadcef06626719dca505a56c1d1c")
 
     if not is_plat("windows", "mingw") then
         set_isbuilt(false)
@@ -36,5 +37,5 @@ package("cwinrt")
         assert(package:check_csnippets({test = [[
             #include <cwinrt/bootstrap.h>
             void test(void) {}
-        ]]}, {configs = {languages = "c17"}}))
+        ]]}, {configs = {languages = "c23"}}))
     end)

@@ -8,6 +8,7 @@ package("fluxent")
     add_versions("0.1.1", "5d89e8af67ece72c99febb50290bba8b05a9b6f0")
     add_versions("0.1.2", "cc11c4d841958d84e491a56e36daeb56e680f2b2")
     add_versions("0.2.0", "490e6f3f50939e79083ae2cada757799442148c7")
+    add_versions("0.2.1", "1aa1efbd92dc4f9583e445395d6c3dbe4b700d96")
 
     if not is_plat("windows", "mingw") then
         set_isbuilt(false)
@@ -52,5 +53,5 @@ package("fluxent")
         assert(package:check_csnippets({test = [[
             #include <fluxent/flux_app.h>
             void test(void) {}
-        ]]}, {configs = {languages = "c17"}}))
+        ]]}, {configs = {languages = "c23"}}))
     end)
