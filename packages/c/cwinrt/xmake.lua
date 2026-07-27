@@ -7,16 +7,15 @@ package("cwinrt")
     add_versions("0.1.0", "1745ebfa94596b1e49e6339f5c4cc68d2746690b")
     add_versions("0.2.0", "f5f5bf527d0dae3fa87cf8d7c0c7c482591ca596")
     add_versions("0.2.1", "b104e2c0fdf6cadcef06626719dca505a56c1d1c")
+    add_versions("0.3.0", "eabeec5be8273e9b7f78204f23c0056782b4514c")
 
     if not is_plat("windows", "mingw") then
         set_isbuilt(false)
     end
 
     on_install("windows", "mingw", function (package)
-        -- The project xmake.lua gates its generator / conformance suite / samples on
-        -- is_main and would try to build coetua + cwinrt-gen here. The bindings
-        -- (include/cwinrt/impl/*.impl.c) are committed, so build ONLY the runtime +
-        -- bindings into a single lib via a minimal build file.
+        -- Package the split runtime and committed bindings as one conventional
+        -- archive; the upstream integration target is phony.
         io.writefile("xmake.lua", [[
             add_rules("mode.debug", "mode.release")
             set_languages("c23")

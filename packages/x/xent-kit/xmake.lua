@@ -7,14 +7,14 @@ package("xent-kit")
     add_versions("0.1.0", "790fe1c6137bf626fcb431929a7b5957eda88391")
     add_versions("0.2.0", "e6eca62decd9762060fa4305d8b9ae2966b9af98")
     add_versions("0.2.1", "004fea693544a52f71a82e283eb521f62c559731")
+    add_versions("0.3.0", "4e69a2b841d5f9c754088e7d6f963d9edd976405")
 
-    add_deps("xent-core")
+    on_load(function (package)
+        package:add("deps", "xent-core " .. package:version():rawstr())
+    end)
 
     on_install(function (package)
-        -- NOTE: requires xent-kit/xmake.lua to consume xent-core via add_requires/
-        -- add_packages (not the old xtk_dep sibling-clone). See xent-repo task #2.
         import("package.tools.xmake").install(package)
-        -- add_headerfiles flattens include/xtk/*.h; restore the xtk/ prefix.
         os.cp("include/xtk", package:installdir("include"))
     end)
 

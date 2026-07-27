@@ -14,13 +14,14 @@ own package recipes, nothing else.
 | `cwinrt`    | Project-Xent/cwinrt                    | —                                     | windows |
 | `fluxent`   | Project-Xent/fluxent                   | xent-core, xent-kit, cwinrt           | windows |
 
-All pinned lockstep at `0.1.0`.
+The Xent packages are released in lockstep. `cwinrt` keeps its independent
+version because it is also usable outside Xent.
 
 ## Consume
 
 ```lua
 add_repositories("xent-repo https://github.com/Project-Xent/xent-repo.git")
-add_requires("fluxent")   -- pulls xent-core + xent-kit + cwinrt transitively
+add_requires("fluxent 0.3.0") -- pulls xent-core + xent-kit + cwinrt transitively
 
 target("app")
     add_files("src/*.c")
@@ -32,9 +33,9 @@ and drive the window with fluxent's `flux_run(cfg, model, update, view)`.
 
 ## Notes
 
-- Recipes currently pin `add_versions("0.1.0", <commit-sha>)`. Once the component
-  repos are tagged `v0.1.0`, switch these to the tag (see repo task #5).
-- `xent-kit` / `fluxent` recipes assume their project `xmake.lua` consumes deps via
-  `add_requires`/`add_packages` (not the old `xtk_dep`/`flux_dep` sibling-clone hack).
-- `cwinrt`'s `xmake.lua` gates its generator/tests/samples behind `is_main`; the recipe
-  builds only the library targets (runtime + committed bindings).
+- v0.3.0 recipes pin the immutable release commits.
+- `xent-kit` and `fluxent` consume dependencies through
+  `add_requires`/`add_packages`; package recipes do not duplicate their build
+  graphs.
+- `cwinrt` gates its generator, tests, and samples behind `is_main`; the recipe
+  builds only the runtime and committed bindings.

@@ -9,43 +9,23 @@ package("fluxent")
     add_versions("0.1.2", "cc11c4d841958d84e491a56e36daeb56e680f2b2")
     add_versions("0.2.0", "490e6f3f50939e79083ae2cada757799442148c7")
     add_versions("0.2.1", "1aa1efbd92dc4f9583e445395d6c3dbe4b700d96")
+    add_versions("0.3.0", "fcf704ace05573e07f25e607915288117f3ebcf2")
 
     if not is_plat("windows", "mingw") then
         set_isbuilt(false)
     end
 
-    add_deps("xent-core", "xent-kit", "cwinrt")
+    on_load(function (package)
+        local version = package:version()
+        local stack_version = version:lt("0.2.0") and "0.1.0" or version:rawstr()
+        local cwinrt_version = version:lt("0.2.0") and "0.1.0"
+            or (version:lt("0.3.0") and version:rawstr() or "0.3.0")
+        package:add("deps", "xent-core " .. stack_version)
+        package:add("deps", "xent-kit " .. stack_version)
+        package:add("deps", "cwinrt " .. cwinrt_version)
+    end)
 
     on_install("windows", "mingw", function (package)
-        -- The project xmake.lua resolves deps via flux_dep (sibling-or-clone-main) and
-        -- also builds the gallery + test binaries. Replace it with a minimal build file
-        -- that consumes the pinned package deps and builds only the fluxent library.
-        io.writefile("xmake.lua", [[
-            add_rules("mode.debug", "mode.release")
-            set_languages("c23")
-            set_runtimes("MT")
-            add_defines("COBJMACROS", "_CRT_SECURE_NO_WARNINGS",
-                        "_WIN32_WINNT=0x0A00", "WINVER=0x0A00", "UNICODE", "_UNICODE",
-                        "WIN32_LEAN_AND_MEAN", "NOMINMAX")
-            add_requires("xent-core", "xent-kit", "cwinrt")
-            target("fluxent")
-                set_kind("$(kind)")
-                add_packages("xent-core", "xent-kit", "cwinrt")
-                add_includedirs("include", "thirdparty/c_d2d_dwrite", {public = true})
-                add_includedirs("src")
-                add_headerfiles("include/(fluxent/**.h)")
-                add_files("src/*.c", "src/app/*.c", "src/compose/*.c",
-                          "src/controls/behavior/*.c", "src/controls/draw/*.c",
-                          "src/controls/factory/*.c", "src/controls/textbox/*.c",
-                          "src/bridge/*.c", "src/graphics/*.c", "src/input/*.c",
-                          "src/popup/*.c", "src/render/*.c", "src/runtime/*.c",
-                          "src/store/*.c", "src/text/*.c", "src/theme/*.c",
-                          "src/window/*.c")
-                add_syslinks("user32", "gdi32", "dcomp", "d2d1", "d3d11", "dxgi",
-                             "dwrite", "dwmapi", "ole32", "oleaut32", "uuid", "uxtheme",
-                             "imm32", "advapi32", "shell32", "coremessaging",
-                             "uiautomationcore", "runtimeobject", "windowscodecs")
-        ]])
         import("package.tools.xmake").install(package)
     end)
 
