@@ -8,14 +8,13 @@ package("cwinrt")
     add_versions("0.2.0", "f5f5bf527d0dae3fa87cf8d7c0c7c482591ca596")
     add_versions("0.2.1", "b104e2c0fdf6cadcef06626719dca505a56c1d1c")
     add_versions("0.3.0", "e996586bc0b1b1f5c66140458b2204d25d74171d")
+    add_versions("0.3.1", "f3002cdae56dad58d764e5ce4ed870be4b8dd3a3")
 
     if not is_plat("windows", "mingw") then
         set_isbuilt(false)
     end
 
     on_install("windows", "mingw", function (package)
-        -- Package the split runtime and committed bindings as one conventional
-        -- archive; the upstream integration target is phony.
         io.writefile("xmake.lua", [[
             add_rules("mode.debug", "mode.release")
             set_languages("c23")

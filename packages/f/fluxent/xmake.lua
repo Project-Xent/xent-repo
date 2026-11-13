@@ -10,6 +10,7 @@ package("fluxent")
     add_versions("0.2.0", "490e6f3f50939e79083ae2cada757799442148c7")
     add_versions("0.2.1", "1aa1efbd92dc4f9583e445395d6c3dbe4b700d96")
     add_versions("0.3.0", "fcf704ace05573e07f25e607915288117f3ebcf2")
+    add_versions("0.3.1", "7e76b4e144fbe6219651f7941c429e192d3be028")
 
     if not is_plat("windows", "mingw") then
         set_isbuilt(false)
@@ -18,20 +19,25 @@ package("fluxent")
     on_load(function (package)
         local version = package:version()
         local stack_version = version:lt("0.2.0") and "0.1.0" or version:rawstr()
-        local cwinrt_version = version:lt("0.2.0") and "0.1.0"
-            or (version:lt("0.3.0") and version:rawstr() or "0.3.0")
+        local cwinrt_version = version:lt("0.2.0") and "0.1.0" or version:rawstr()
         package:add("deps", "xent-core " .. stack_version)
         package:add("deps", "xent-kit " .. stack_version)
         package:add("deps", "cwinrt " .. cwinrt_version)
+        if is_plat("windows", "mingw") then
+            package:add("syslinks", "user32", "gdi32", "dcomp", "d2d1", "d3d11",
+                                    "dxgi", "dwrite", "dwmapi", "ole32", "oleaut32", "uuid", "uxtheme", "imm32",
+                                    "advapi32", "shell32", "coremessaging", "uiautomationcore", "runtimeobject", "windowscodecs")
+        end
     end)
 
     on_install("windows", "mingw", function (package)
-        import("package.tools.xmake").install(package)
+        import("package.tools.xmake").install(package, {}, {target = "fluxent"})
+        os.cp("include/fluxent", package:installdir("include"))
     end)
 
     on_test(function (package)
         assert(package:check_csnippets({test = [[
             #include <fluxent/flux_app.h>
-            void test(void) {}
+            void test(void) { FluxAppCfg cfg = {0}; (void) flux_run(&cfg, 0, 0, 0); }
         ]]}, {configs = {languages = "c23"}}))
     end)
