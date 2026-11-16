@@ -9,6 +9,7 @@ package("xent-kit")
     add_versions("0.2.1", "004fea693544a52f71a82e283eb521f62c559731")
     add_versions("0.3.0", "4e69a2b841d5f9c754088e7d6f963d9edd976405")
     add_versions("0.3.1", "7ef231b108d3154426c5379fc0a228abcea29ba8")
+    add_versions("0.3.2", "ade2d71148619c3282c941a22c666b7b2539a592")
 
     on_load(function (package)
         package:add("deps", "xent-core " .. package:version():rawstr())

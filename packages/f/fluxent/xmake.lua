@@ -11,6 +11,7 @@ package("fluxent")
     add_versions("0.2.1", "1aa1efbd92dc4f9583e445395d6c3dbe4b700d96")
     add_versions("0.3.0", "fcf704ace05573e07f25e607915288117f3ebcf2")
     add_versions("0.3.1", "7e76b4e144fbe6219651f7941c429e192d3be028")
+    add_versions("0.3.2", "205fb77a41e4469904b69c4292547b4a9ccec0ed")
 
     if not is_plat("windows", "mingw") then
         set_isbuilt(false)
@@ -19,7 +20,9 @@ package("fluxent")
     on_load(function (package)
         local version = package:version()
         local stack_version = version:lt("0.2.0") and "0.1.0" or version:rawstr()
-        local cwinrt_version = version:lt("0.2.0") and "0.1.0" or version:rawstr()
+        -- cwinrt has no 0.3.2 tag; the fluxent 0.3.2 release builds against cwinrt 0.3.1.
+        local cwinrt_version = version:lt("0.2.0") and "0.1.0"
+            or (version:eq("0.3.2") and "0.3.1" or version:rawstr())
         package:add("deps", "xent-core " .. stack_version)
         package:add("deps", "xent-kit " .. stack_version)
         package:add("deps", "cwinrt " .. cwinrt_version)
