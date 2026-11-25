@@ -11,6 +11,7 @@ package("xent-core")
     add_versions("0.3.1", "ead80b4857a43e9d8d12d2c72f4b2d138d04de86")
     add_versions("0.3.2", "25719f23f66ad011226d3df16096f67fc2d92c9a")
     add_versions("0.3.3", "070f4201e6bab1c0e8a3a5bcfec6e508613c875b")
+    add_versions("0.4.0", "758248d1e835514de0d6a4f94fd537fe098b2d58")
 
     add_configs("simd", {description = "Enable SIMD paths", default = false, type = "boolean"})
     add_configs("ispc", {description = "Enable ISPC SIMD backend (requires ispc on PATH)", default = false, type = "boolean"})

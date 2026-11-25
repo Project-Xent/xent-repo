@@ -9,6 +9,7 @@ package("cwinrt")
     add_versions("0.2.1", "b104e2c0fdf6cadcef06626719dca505a56c1d1c")
     add_versions("0.3.0", "e996586bc0b1b1f5c66140458b2204d25d74171d")
     add_versions("0.3.1", "f3002cdae56dad58d764e5ce4ed870be4b8dd3a3")
+    add_versions("0.4.0", "7cd1c44a449e996b7d78fa3e7ceb32a904d0d954")
 
     if not is_plat("windows", "mingw") then
         set_isbuilt(false)
